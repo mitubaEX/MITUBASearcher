@@ -1,20 +1,77 @@
-@*
- * This template is called from the `index` template. This template
- * handles the rendering of the page header and body tags. It takes
- * two arguments, a `String` for the title of the page and an `Html`
- * object to insert into the body of the page.
- *@
-@(title: String)(content: Html)
-
+@(title: String)
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
     <head>
-        @* Here's where we render the page title `String`. *@
+        <meta charset="UTF-8"/>
         <title>@title</title>
+        <link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css"/>
+        <script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
+
+        @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"/>*@
+        @*<script src="//code.jquery.com/jquery-1.12.4.js"></script>*@
+        @*<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>*@
+
+
+        <script>
+                jQuery(function($){
+                    $("#searchResultTable").DataTable({
+                        order: [ [ 6, "desc" ] ],
+                        bStateSave:true,
+                        searching: false
+                    });
+                });
+        </script>
+        <style type="text/css">
+                div.container {
+                    width: 100%;
+                }
+        </style>
     </head>
     <body>
-        @* And here's where we render the `Html` object containing
-         * the page content. *@
-        @content
+        <h3>リクエスト</h3>
+            <!-- ユーザタイプを入力するテキストボックス -->
+            User Type:<input type="text" name="text" id="text"/><br/>
+            <!-- 入力する値の項目 -->
+            <!-- <form id="myForm" name="myForm" method="post" action=""> -->
+        <input type="file" id="file" name="file"/>
+            <!-- ajax()を実行するボタン -->
+        <button data-btn-type="search">search!</button>
+            <!-- </form> -->
+        <br/><br/>
+        <h3>結果</h3>
+            <!-- 結果表示用のdivタグ -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="@routes.Assets.at("javascripts/hello.js")"></script>
+            <!-- <script type="text/javascript" src="api2.js"></script> -->
+
+        <div class="container">
+            <div class="table-responsive">
+                <table id="searchResultTable" class="table table-striped" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>検索ファイル名</th>
+                            <th>検索結果ファイル名</th>
+                            <th>groupID</th>
+                            <th>artifactID</th>
+                            <th>version</th>
+                            <th>jarファイル名</th>
+                            <th>類似度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </body>
 </html>

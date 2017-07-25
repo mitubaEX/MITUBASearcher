@@ -7,27 +7,37 @@ import dispatch.Future
 import models.{Birthmark, ExtractFile, Result}
 import play.api.mvc.{Action, Controller}
 import services.{BirthmarkSearcher, EachBirthmarkComparator}
+import spray.json._
 
+case class ResultJSON(postedClassFile: String, resultClassFile: String, sim: String,
+                      jar: String, groupId: String, artifactId: String, version: String)
+
+object MyJsonProtocol extends DefaultJsonProtocol{
+  implicit val resultFormat = jsonFormat7(ResultJSON)
+}
 
 /**
   * Created by mituba on 2017/07/23.
   */
 class FileUploader @Inject() extends Controller {
-  def upload = Action(parse.multipartFormData){ request =>
-    val extractFile = new ExtractFile(request, new Birthmark("2-gram"))
+  def mainPage = Action{ request =>
+    Ok(views.html.main("WebAPI"))
+  }
 
+  def upload = Action(parse.multipartFormData){ request =>
+    println(request.body.toString())
+    request.body.file("a").map{ n => println(n) }
+    val extractFile = new ExtractFile(request, new Birthmark("2-gram"))
 
     val searchResult: List[List[Result]] = new BirthmarkSearcher().postBirthmark(extractFile)
 
-    val resultMap = searchResult.flatMap(n => n).sortWith(_.sim.toDouble > _.sim.toDouble)
-      .map(m => m.postedClassFile + "," + m.resultClassFile + "," + m.sim + "," + m.jar
-        + "," + m.groupId + "," + m.artifactId + "," + m.version)
+    import MyJsonProtocol._
 
-    val compareResultMap = new EachBirthmarkComparator(extractFile, searchResult, new Birthmark("2-gram"))
-      .compare().flatMap(n => n).sortWith(_.sim.toDouble > _.sim.toDouble)
-      .map(m => m.postedClassFile + "," + m.resultClassFile + "," + m.sim + "," + m.jar
-        + "," + m.groupId + "," + m.artifactId + "," + m.version)
+    val resultMap = searchResult.flatMap(n => n).filterNot(_.sim.contains("lev")).sortWith(_.sim.toDouble > _.sim.toDouble)
+      .map(m => ResultJSON(m.postedClassFile.replace(".csv", ""), m.resultClassFile, m.sim,
+        m.jar, m.groupId, m.artifactId, m.version.replace("_", ".")).toJson.toString())
 
-    Ok(resultMap.mkString("\n"))
+    println("[" + resultMap.mkString(",") + "]")
+    Ok("[" + resultMap.mkString(",") + "]")
   }
 }
