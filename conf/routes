@@ -7,3 +7,5 @@ GET      /                          controllers.FileUploader.mainPage
 GET      /assets/*file              controllers.Assets.at(path="/public", file)
 
 POST     /upload                    controllers.FileUploader.upload
+
+POST     /download                  controllers.FileUploader.download

@@ -1,6 +1,6 @@
 package controllers
 
-import java.io.File
+import java.io.{File, FileWriter}
 import javax.inject.Inject
 
 import dispatch.Future
@@ -21,7 +21,19 @@ object MyJsonProtocol extends DefaultJsonProtocol{
   */
 class FileUploader @Inject() extends Controller {
   def mainPage = Action{ request =>
-    Ok(views.html.main("WebAPI"))
+    Ok(views.html.main("MITUBA")("10"))
+  }
+
+  def download = Action(parse.anyContent){ request =>
+    val randomString = scala.util.Random.alphanumeric.take(20).mkString("")
+    val tmpFile: File = new File("files", randomString)
+    val tmpFileWriter: FileWriter = new FileWriter(tmpFile)
+
+    tmpFileWriter.write(request.body.asFormUrlEncoded.get.get("searchResult").get(0))
+
+//    tmpFileWriter.write(request.body.asText.get)
+    tmpFileWriter.close()
+    Ok.sendFile(content = tmpFile, fileName = _ => randomString)
   }
 
   def upload = Action(parse.multipartFormData){ request =>
