@@ -28,19 +28,14 @@ class FileUploader @Inject() extends Controller {
     val randomString = scala.util.Random.alphanumeric.take(20).mkString("")
     val tmpFile: File = new File("files", randomString)
     val tmpFileWriter: FileWriter = new FileWriter(tmpFile)
-
     tmpFileWriter.write(request.body.asFormUrlEncoded.get.get("searchResult").get(0))
-
-//    tmpFileWriter.write(request.body.asText.get)
     tmpFileWriter.close()
+
     Ok.sendFile(content = tmpFile, fileName = _ => randomString)
   }
 
   def upload = Action(parse.multipartFormData){ request =>
-    println(request.body.toString())
-    request.body.file("a").map{ n => println(n) }
     val extractFile = new ExtractFile(request, new Birthmark("2-gram"))
-
     val searchResult: List[List[Result]] = new BirthmarkSearcher().postBirthmark(extractFile)
 
     import MyJsonProtocol._
@@ -49,7 +44,6 @@ class FileUploader @Inject() extends Controller {
       .map(m => ResultJSON(m.postedClassFile.replace(".csv", ""), m.resultClassFile, m.sim,
         m.jar, m.groupId, m.artifactId, m.version.replace("_", ".")).toJson.toString())
 
-    println("[" + resultMap.mkString(",") + "]")
     Ok("[" + resultMap.mkString(",") + "]")
   }
 }
