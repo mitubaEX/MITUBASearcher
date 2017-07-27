@@ -11,7 +11,7 @@ import dispatch.Defaults._
 /**
   * Created by mituba on 2017/07/23.
   */
-class BirthmarkSearcher() {
+class BirthmarkSearcher(threshold: String) {
 //  def postBirthmark(extractFile: ExtractFile): List[Result] ={
   def postBirthmark(extractFile: ExtractFile): List[List[Result]] ={
     def search(classFile: String,
@@ -39,7 +39,10 @@ class BirthmarkSearcher() {
       val http = Http(requestHandler OK as.String)
       http().split("\n").map(_.split(",", 7)).map(n => new Result(extractFile.extractFile,
         n(0), n(1), n(2), n(3), n(4), n(5), n(6)
-      )).toList
+      )).filterNot(_.sim.contains("lev"))
+        .sortWith(_.sim.toDouble > _.sim.toDouble)
+        .filter(_.sim.toDouble >= threshold.toDouble)
+        .toList
     }
 
     val source = scala.io.Source.fromFile("files/" + extractFile.extractFile)

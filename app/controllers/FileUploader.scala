@@ -35,12 +35,14 @@ class FileUploader @Inject() extends Controller {
   }
 
   def upload = Action(parse.multipartFormData){ request =>
-    val extractFile = new ExtractFile(request, new Birthmark("2-gram"))
-    val searchResult: List[List[Result]] = new BirthmarkSearcher().postBirthmark(extractFile)
-
     import MyJsonProtocol._
 
-    val resultMap = searchResult.flatMap(n => n).filterNot(_.sim.contains("lev")).sortWith(_.sim.toDouble > _.sim.toDouble)
+    val kindOfBirthmark = request.body.dataParts.get("birthmark").get(0)
+    val threshold = request.body.dataParts.get("threshold").get(0)
+    val extractFile = new ExtractFile(request, new Birthmark(kindOfBirthmark))
+    val searchResult: List[List[Result]] = new BirthmarkSearcher(threshold).postBirthmark(extractFile)
+
+    val resultMap = searchResult.flatMap(n => n)
       .map(m => ResultJSON(m.postedClassFile.replace(".csv", ""), m.resultClassFile, m.sim,
         m.jar, m.groupId, m.artifactId, m.version.replace("_", ".")).toJson.toString())
 
