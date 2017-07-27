@@ -3,7 +3,7 @@
   <component name="Play2ExcludedModulesSettings">
     <option name="INFO">
       <map>
-        <entry key="InterfaceServerForMituba">
+        <entry key="MITUBASearcher">
           <value>
             <ProjectSettingsEntry>
               <option name="playDistrPath" value="$USER_HOME$/.ivy2/cache/com.typesafe.play/play_2.11/jars/play_2.11-2.5.10.jar" />

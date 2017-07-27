@@ -1,4 +1,4 @@
-name := """InterfaceServerForMituba"""
+name := """MITUBASearcher"""
 
 version := "1.0-SNAPSHOT"
 
