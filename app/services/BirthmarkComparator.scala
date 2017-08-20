@@ -9,7 +9,6 @@ import play.api.libs.json.Json
 import spray.json.DefaultJsonProtocol
 import spray.json._
 
-
 case class ResultJSON(postedClassFile: String, resultClassFile: String, sim: String,
                       jar: String, groupId: String, artifactId: String, version: String, birthmarkData: String)
 object MyJsonProtocol extends DefaultJsonProtocol{
@@ -17,13 +16,6 @@ object MyJsonProtocol extends DefaultJsonProtocol{
   implicit def jsonWrites = Json.writes[ResultJSON]
   implicit def jsonReads = Json.reads[ResultJSON]
 }
-
-//object ResultJSON{
-////  implicit val jsonFormat: Format[ResultJSON] = Json.format[ResultJSON]
-//  implicit def jsonWrites = Json.writes[ResultJSON]
-//  implicit def jsonReads = Json.reads[ResultJSON]
-//}
-
 
 /**
   * Created by mituba on 2017/08/20.
@@ -38,12 +30,8 @@ case class BirthmarkComparator(birthmark: Birthmark) {
     val compareResultJson: List[String] = compareResultList.map(n => Json.toJson(n).toString()).toList
 
     "[" + compareResultJson.mkString(",") + "]"
-//    val resultList: List[ResultJSON] = parseSearchResultValues.map(n => ResultJSON.getClass.getMethods.find(_.getName == "apply").
-//      get.invoke(ResultJSON, n.asInstanceOf[Map[String, String]].values.toList.map(_.asInstanceOf[AnyRef]):_*).asInstanceOf[ResultJSON]).toList
-//    println(resultList)
-//    resultList.map(n => performCompare(birthmark = birthmark, postedClassFile = n.postedClassFile, resultClassFile = n.resultClassFile, sim = n.sim,
-//      jar = n.jar, groupId = n.groupId, artifactId = n.artifactId, version = n.version, birthmarkData = n.birthmarkData)).toList
   }
+
   def writeFile(resultClassFile: String, birthmarkData: String): Unit ={
     val fileWriter: FileWriter = new FileWriter(new File("files", resultClassFile + ".csv"))
     fileWriter.write(resultClassFile + ",," + birthmark.birthmark + "," + birthmarkData.replace("\"", ""))
@@ -57,7 +45,6 @@ case class BirthmarkComparator(birthmark: Birthmark) {
 
     val builder = new ScriptRunnerBuilder
     val runner = builder.build
-    println(resultClassFile)
     writeFile(resultClassFile, birthmarkData)
 
     val arg = Array("./compare_input_csv_test.js", birthmark.birthmark, "files/" + postedClassFile + ".csv", "files/" + resultClassFile + ".csv")
