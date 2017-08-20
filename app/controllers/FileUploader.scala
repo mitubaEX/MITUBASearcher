@@ -10,10 +10,10 @@ import services.{BirthmarkSearcher, EachBirthmarkComparator}
 import spray.json._
 
 case class ResultJSON(postedClassFile: String, resultClassFile: String, sim: String,
-                      jar: String, groupId: String, artifactId: String, version: String)
+                      jar: String, groupId: String, artifactId: String, version: String, birthmarkData: String)
 
 object MyJsonProtocol extends DefaultJsonProtocol{
-  implicit val resultFormat = jsonFormat7(ResultJSON)
+  implicit val resultFormat = jsonFormat8(ResultJSON)
 }
 
 /**
@@ -44,7 +44,7 @@ class FileUploader @Inject() extends Controller {
 
     val resultMap = searchResult.flatMap(n => n)
       .map(m => ResultJSON(m.postedClassFile.replace(".csv", ""), m.resultClassFile, m.sim,
-        m.jar, m.groupId, m.artifactId, m.version.replace("_", ".")).toJson.toString())
+        m.jar, m.groupId, m.artifactId, m.version.replace("_", "."), m.birthmarkData).toJson.toString())
 
     Ok("[" + resultMap.mkString(",") + "]")
   }

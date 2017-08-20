@@ -17,6 +17,8 @@ libraryDependencies ++= Seq(
   "com.github.pochi" % "pochi-runner" % "1.0-SNAPSHOT",
   // https://mvnrepository.com/artifact/io.spray/spray-json_2.11
   "io.spray" % "spray-json_2.11" % "1.3.3",
-  "net.databinder.dispatch" %% "dispatch-core" % "0.11.3"
+  "net.databinder.dispatch" %% "dispatch-core" % "0.11.3",
+  "org.json4s" %% "json4s-native" % "3.3.0",
+  "org.json4s" %% "json4s-jackson" % "3.3.0"
 )
 

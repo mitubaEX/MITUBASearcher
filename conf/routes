@@ -9,3 +9,5 @@ GET      /assets/*file              controllers.Assets.at(path="/public", file)
 POST     /upload                    controllers.FileUploader.upload
 
 POST     /download                  controllers.FileUploader.download
+
+POST     /compare                   controllers.Comparator.compare
