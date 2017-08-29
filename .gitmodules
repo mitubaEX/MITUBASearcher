@@ -1,0 +1,3 @@
+[submodule "pochi"]
+	path = pochi
+	url = https://github.com/tamada/pochi.git
