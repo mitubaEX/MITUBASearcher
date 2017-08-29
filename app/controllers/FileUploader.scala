@@ -43,6 +43,7 @@ class FileUploader @Inject() extends Controller {
     val searchResult: List[List[Result]] = new BirthmarkSearcher(threshold).postBirthmark(extractFile)
 
     val resultMap = searchResult.flatMap(n => n)
+      .filterNot(n => n.postedClassFile == "")
       .map(m => ResultJSON(m.postedClassFile.replace(".csv", ""), m.resultClassFile, m.sim,
         m.jar, m.groupId, m.artifactId, m.version.replace("_", "."), m.birthmarkData).toJson.toString())
 
