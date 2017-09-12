@@ -1,10 +1,16 @@
-searcher:
-    image: ingensi/play-framework
-    # image: dordoka/play-framework
-    ports:
-        - "9000:9000"
-    # tty: true
-    volumes:
-        - ./:/app
-    # command: bash -c "cd /app && bash script.sh && activator run"
+version: '3'
+services:
+    searcher:
+        # image: hseeberger/scala-sbt
+        # image: ingensi/play-framework
+        # image: dordoka/play-framework
+        build: .
+        ports:
+            - "9000:9000"
+        # tty: true
+        volumes:
+            - ./:/app
+        tty: true
+        command: bash -c "cd /app && bash script.sh"
+        # command: bash -c "echo hello"
 
