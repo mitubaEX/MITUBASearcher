@@ -27,8 +27,7 @@ RUN \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
   apt-get install sbt && \
-  sbt sbtVersion \
-  apt-get install maven
+  sbt sbtVersion
 
 # Define working directory
 WORKDIR /root
