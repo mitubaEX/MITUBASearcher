@@ -1,16 +1,16 @@
 version: '3'
 services:
     searcher:
-        # image: hseeberger/scala-sbt
-        # image: ingensi/play-framework
-        # image: dordoka/play-framework
-        image: mitubaex/inpochi
+        image: mitubaex/inpochi:1.1
         ports:
             - "9000:9000"
-        # tty: true
         volumes:
             - ./:/app
         tty: true
-        command: bash -c "cd /app && sbt run"
-        # command: bash -c "echo hello"
-
+        command: bash -c "cd /app && export PATH=$PATH:/opt/activator && activator run"
+    solr:
+        image: solr
+        ports:
+            - "8983:8983"
+        volumes:
+            - ./data:/opt/solr/data

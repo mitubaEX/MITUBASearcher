@@ -89,3 +89,5 @@ server.pid
 # End of https://www.gitignore.io/api/scala,intellij,playframework
 
 files/*
+data/*.csv
+data/*.xml
