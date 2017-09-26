@@ -1,0 +1,3 @@
+[submodule "crawlerOfJava"]
+	path = crawlerOfJava
+	url = https://github.com/mitubaEX/crawlerOfJava.git
