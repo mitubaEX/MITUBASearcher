@@ -8,6 +8,7 @@ services:
             - ./:/app
             - ~/.ivy2:/root/.ivy2
         tty: true
+        container_name: searcher
         command: bash -c "cd /app && export PATH=$PATH:/opt/activator && activator run"
     solr:
         image: solr
@@ -15,3 +16,13 @@ services:
             - "8983:8983"
         volumes:
             - ./data:/opt/solr/data
+            - ./crawlerOfJava/json:/opt/solr/json
+        container_name: solr
+    crawler:
+        image: mitubaex/inpochi:1.1
+        volumes:
+            - ./crawlerOfJava:/app
+            - ~/.ivy2:/root/.ivy2
+        tty: true
+        container_name: crawler
+        # command: bash -c "cd /app && ./gradlew build && java -jar ./build/libs/crawlerOfJava.jar"
