@@ -1,9 +1,9 @@
+git submodule update --init --recursive
+git submodule foreach git pull origin master
 docker-compose up -d
 sleep 5s
 
 if [ $1 = "crawler" ]; then
-    git submodule update --init --recursive
-    git submodule foreach git pull origin master
     docker exec -it crawler bash -c "cd /app && ./gradlew build && java -jar ./build/libs/crawlerOfJava.jar"
     docker exec -it solr bin/solr create -c 2gram
     docker exec -it solr bin/solr create -c 3gram
