@@ -11,3 +11,5 @@ POST     /upload                    controllers.FileUploader.upload
 POST     /download                  controllers.FileUploader.download
 
 POST     /compare                   controllers.Comparator.compare
+
+POST     /search                    controllers.SearchController.search

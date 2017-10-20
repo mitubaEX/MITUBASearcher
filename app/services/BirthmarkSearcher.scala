@@ -28,7 +28,7 @@ class BirthmarkSearcher(threshold: String) {
             }
            }
         """
-      val postUrl: String = s"http://solr/solr/${kindOfBirthmark.replace("-","")}/query"
+      val postUrl: String = s"http://localhost:8982/solr/${kindOfBirthmark.replace("-","")}/query"
       val encodedBirthmarkData: String = URLEncoder.encode(birthmarkData, "UTF-8")
 
       val requestHandler = url(postUrl).POST
